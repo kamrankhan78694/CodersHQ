@@ -7,8 +7,10 @@ from django.urls import include, path
 from django.views import defaults as default_views
 from django.views.generic import TemplateView
 from django.views.generic.base import RedirectView
-from rest_framework_jwt.views import obtain_jwt_token
-from rest_auth.views import PasswordResetConfirmView, PasswordResetView
+from dj_rest_auth.views import PasswordResetConfirmView, PasswordResetView
+from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshView
+
+from codershq.api.auth_views import LegacyTokenObtainView
 
 urlpatterns = [
     path(
@@ -58,12 +60,17 @@ urlpatterns = [
     #  API
     path('api-auth/', include('rest_framework.urls')),
     path('rest-auth/registration/account-confirm-email/<str:key>/', confirm_email, name='account_confirm_email'),
-    path('rest-auth/', include('rest_auth.urls')),
-    path('rest-auth/registration/', include('rest_auth.registration.urls')),
+    path('rest-auth/', include('dj_rest_auth.urls')),
+    path('rest-auth/registration/', include('dj_rest_auth.registration.urls')),
     # path('rest-auth/password/reset/', PasswordResetView.as_view(), name='rest_password_reset',),
     path('rest-auth/password/reset/confirm/<uidb64>/<token>/', PasswordResetConfirmView.as_view(), name='password_reset_confirm',),
 
-    path('api-token-auth/', obtain_jwt_token),
+    # Modern JWT auth (SimpleJWT)
+    path('api/token/', TokenObtainPairView.as_view(), name='token_obtain_pair'),
+    path('api/token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
+
+    # Legacy JWT auth endpoint (drf-jwt compatible response)
+    path('api-token-auth/', LegacyTokenObtainView.as_view(), name='legacy_api_token_auth'),
     path("api/", include("codershq.api.urls", namespace="api")),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 

@@ -75,14 +75,12 @@ THIRD_PARTY_APPS = [
     "allauth.account",
     "allauth.socialaccount",
     "allauth.socialaccount.providers.github",
-    'rest_auth.registration',
     "django_celery_beat",
     "ckeditor",
     "djangosaml2idp",
     'rest_framework',
-    'rest_framework_jwt',
-    'rest_framework_jwt.blacklist',
-    'rest_auth',
+    'dj_rest_auth',
+    'dj_rest_auth.registration',
     "corsheaders",
 ]
 
@@ -344,16 +342,24 @@ STATICFILES_FINDERS += ["compressor.finders.CompressorFinder"]
 
 REST_FRAMEWORK = {
     'DEFAULT_PERMISSION_CLASSES': (
-        'rest_framework.permissions.IsAuthenticated'
+        'rest_framework.permissions.IsAuthenticated',
     ),
     'DEFAULT_AUTHENTICATION_CLASSES': (
-        'rest_framework_jwt.authentication.JSONWebTokenAuthentication',
+        'rest_framework_simplejwt.authentication.JWTAuthentication',
         'rest_framework.authentication.SessionAuthentication',
         'rest_framework.authentication.BasicAuthentication',
-    )
+    ),
 }
 
 REST_USE_JWT = True
+
+# This project uses JWT (SimpleJWT) rather than DRF token authentication.
+REST_AUTH_TOKEN_MODEL = None
+
+SIMPLE_JWT = {
+    # Allow legacy clients that send `Authorization: JWT <token>`.
+    "AUTH_HEADER_TYPES": ("Bearer", "JWT"),
+}
 
 # AUTH_USER_MODEL = "user.User"
 

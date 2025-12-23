@@ -13,7 +13,7 @@ from rest_framework.decorators import (
 from rest_framework.parsers import JSONParser
 from rest_framework.permissions import AllowAny, IsAdminUser, IsAuthenticated
 from rest_framework.response import Response
-from rest_framework_jwt.authentication import JSONWebTokenAuthentication
+from rest_framework_simplejwt.authentication import JWTAuthentication
 
 from codershq.api.utils.analytics import Analytics
 from codershq.api.utils.pluralsight import PluralSight
@@ -28,8 +28,9 @@ User = get_user_model()
 @api_view(['GET'])
 def getRoutes(request):
     routes = [
-        '/api/token',
-        '/api/token/refresh',
+        '/api/token/',
+        '/api/token/refresh/',
+        '/api-token-auth/',
         "users/all/",
         "assessment/skills/all/",
         "users/skills/<int:id>/",
@@ -45,7 +46,7 @@ class RegisterView(generics.CreateAPIView):
 
 
 @api_view(['GET'])
-@authentication_classes([SessionAuthentication, BasicAuthentication, JSONWebTokenAuthentication])
+@authentication_classes([SessionAuthentication, BasicAuthentication, JWTAuthentication])
 @permission_classes([IsAdminUser])
 def users_all(request):
     """
@@ -58,7 +59,7 @@ def users_all(request):
     return JsonResponse(data, safe=True)
 
 @api_view(['GET'])
-@authentication_classes([SessionAuthentication, BasicAuthentication, JSONWebTokenAuthentication])
+@authentication_classes([SessionAuthentication, BasicAuthentication, JWTAuthentication])
 @permission_classes([IsAdminUser])
 def users_data(request):
     """
@@ -72,7 +73,7 @@ def users_data(request):
 
 
 @api_view(['GET','POST'])
-@authentication_classes([SessionAuthentication, BasicAuthentication, JSONWebTokenAuthentication, ])
+@authentication_classes([SessionAuthentication, BasicAuthentication, JWTAuthentication])
 @permission_classes([IsAuthenticated])
 def user(request, username):
     """

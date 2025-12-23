@@ -262,6 +262,20 @@ Please check `cookiecutter-django Docker documentation` for more details how to 
 
 With MailHog running, to view messages that are sent by your application, open your browser and go to ``http://127.0.0.1:8025``
 
+### API Authentication (JWT)
+
+The API uses JWT authentication (SimpleJWT).
+
+- Obtain tokens:
+    - `POST /api/token/` with JSON body `{"username": "<username>", "password": "<password>"}`
+    - Response includes `access` and `refresh`
+- Use the access token on requests:
+    - `Authorization: Bearer <access>` (legacy clients may also use `Authorization: JWT <access>`)
+- Refresh tokens:
+    - `POST /api/token/refresh/` with `{"refresh": "<refresh>"}`
+
+For backwards compatibility, `POST /api-token-auth/` is still available and returns a `token` field.
+
 ## Stargazers ⭐
 
 ### Thanks to all of our   `Stargazers` ⭐ 🔭 who are supporting CodersHQ project
