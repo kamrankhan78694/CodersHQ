@@ -31,7 +31,6 @@ class UserUpdateView(LoginRequiredMixin, SuccessMessageMixin, UpdateView):
         "profile_image",
         "github_profile",
         "academic_qualification",
-        "github_profile",
     ]
     success_message = _("Information successfully updated")
 
