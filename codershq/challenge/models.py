@@ -49,7 +49,7 @@ class Challenge(models.Model):
         upload_to="challenges/image/",
         blank=True,
         default=None,
-        null=None,
+        null=True,
     )
     # test and train data
     train_data = models.URLField(

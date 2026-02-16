@@ -7,7 +7,7 @@ from django.utils.translation import gettext_lazy as _
 class Company(models.Model):
     """Main company model"""
 
-    name = models.CharField(_("Comany name"), max_length=100)
+    name = models.CharField(_("Company name"), max_length=100)
     # logo size https://www.logaster.com/blog/logo-sizes/#company2
     logo = models.ImageField(_("Company logo"), upload_to="logo/", max_length=100)
     website = models.URLField(_("Company website"), max_length=200)

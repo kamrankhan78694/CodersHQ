@@ -107,6 +107,8 @@ from django.dispatch import receiver
 @receiver(post_save, sender=User)
 def create_pluralSightEmail(sender, instance, created, **kwargs):
     if created:
-        User.objects.filter(pk=instance.id).update(pluralSightEmail=str(instance.id)+"@codershq.ae")
-        User.objects.filter(pk=instance.id).update(pluralSightFirstName=str(instance.id))
-        User.objects.filter(pk=instance.id).update(pluralSightLastName="codershq")
+        User.objects.filter(pk=instance.id).update(
+            pluralSightEmail=str(instance.id)+"@codershq.ae",
+            pluralSightFirstName=str(instance.id),
+            pluralSightLastName="codershq",
+        )
